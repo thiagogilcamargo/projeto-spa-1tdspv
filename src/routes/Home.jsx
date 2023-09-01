@@ -1,7 +1,10 @@
 export default function Home() {
-    return (
-      <div>
-          <h1>Home</h1>
-      </div>
-    )
-  }
+
+  document.title = "Home";
+
+  return (
+    <div>
+        <h1>COMPONENTE - HOME</h1>
+    </div>
+  )
+}
