@@ -1,9 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import './index.css'
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './routes/Home.jsx';
 import Produtos from './routes/Produtos.jsx';
 import EditarProdutos from './routes/EditarProdutos.jsx';
@@ -14,9 +13,8 @@ const router = createBrowserRouter([
     children:[
       {path: "/" , element: <Home/>},
       {path: "/produtos" , element: <Produtos/>},
-      {path: "/produtos/editar/:id" , element: <EditarProdutos/>},
-    ]
-  }
+      {path: "/editar/produtos/:id" , element: <EditarProdutos/>},
+    ]}
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -24,3 +22,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <RouterProvider router={router}/>
   </React.StrictMode>,
 )
+
