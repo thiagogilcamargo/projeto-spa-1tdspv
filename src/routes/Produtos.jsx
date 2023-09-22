@@ -57,7 +57,7 @@ export default function Produtos() {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan="5" className={classes.tableDataStyle}>Total de Produtos: {ListaProdutos.length}</td>
+                <td colSpan="5" className={classes.tableDataStyle}>Total de Produtos: {listaProdutoLocal.length}</td>
               </tr>
             </tfoot>
           </table>
@@ -79,3 +79,7 @@ export default function Produtos() {
   // useEffect(()=>{
   //   console.log("Use-Effect que será sempre renderizado!");
   // });
+  
+  // useEffect(()=>{
+  //   console.log("Use-Effect que será renderizado o objeto ou componente ou elemento que está no array de depenências sofrer atualização.");
+  // },[count]);
