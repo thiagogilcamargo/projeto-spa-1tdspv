@@ -1,8 +1,8 @@
-import { ListaProdutos } from "../components/ListaProdutos";
 import { Link } from "react-router-dom";
 import {AiFillEdit as Editar, AiOutlineDelete as Excluir} from "react-icons/ai";
 import classes from "./Produtos.module.css";
 import { useEffect, useState } from "react";
+import ModalInserir from "../components/ModalInserir";
 
 export default function Produtos() {
 
@@ -26,10 +26,15 @@ export default function Produtos() {
       
     },[]);
 
+    const [open, setOpen] = useState(false);
+
     return (
       <div>
           <h1>LISTA DE PRODUTOS</h1>
+        
+          {open ? <ModalInserir open={open} setOpen={setOpen}/> : ""}
 
+        <button onClick={()=> setOpen(true)}>OPEN-MODAL</button>
 
         <div>
           <table className={classes.tableStyle}>
@@ -50,7 +55,7 @@ export default function Produtos() {
                   <td className={classes.tableDataStyle}>{produto.nome}</td>
                   <td className={classes.tableDataStyle}>{produto.desc}</td>
                   <td className={classes.tableDataStyle}>{produto.preco}</td>
-                  <td className={classes.tableDataStyle}><img src={produto.img} alt={produto.desc} /></td>
+                  <td className={classes.tableDataStyle}><img src={produto.img} alt={produto.desc} width={100}/></td>
                   <td className={classes.tableDataStyle}><Link to={`/editar/produtos/${produto.id}`}><Editar/></Link> | <Link to={`/excluir/produtos/${produto.id}`}><Excluir/></Link></td>
                 </tr>
               ))} 
@@ -80,6 +85,4 @@ export default function Produtos() {
   //   console.log("Use-Effect que será sempre renderizado!");
   // });
   
-  // useEffect(()=>{
-  //   console.log("Use-Effect que será renderizado o objeto ou componente ou elemento que está no array de depenências sofrer atualização.");
-  // },[count]);
+  // useEffect((
