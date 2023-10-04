@@ -26,3 +26,22 @@ $estiloBordas:solid 2px #ccc;
     }
 
 }
+
+// Add this to your SCSS file
+.link-cadastrar {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #068606; /* Background color for the link */
+    color: #fff; /* Text color for the link */
+    text-decoration: none; /* Remove default underline */
+    border-radius: 5px; /* Add border radius for rounded corners */
+    font-size: 1.5rem;
+    margin-top: 10px; /* Add spacing from the content above */
+    cursor: pointer;
+    transition: background-color 300ms;
+  
+    &:hover {
+      background-color: #044304; /* Change background color on hover */
+    }
+  }
+  

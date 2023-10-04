@@ -1,91 +1,117 @@
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ListaProdutos } from "../components/ListaProdutos";
-import { useState } from "react";
+import ModalEditar from "../components/ModalEditar";
 
-export default function EditarProdutos() {
-  //Utilizar o HOOK useParams() para recuperar o ID passado no path
-  const { id } = useParams();
 
-  document.title = "EDITAR PRODUTOS " + id;
-
+export default function EditarProduto() {
+  const { id } = useParams(); // Obtém o ID do produto a ser editado
   const navigate = useNavigate();
 
-  const produtoRetornadoDoFiltro = ListaProdutos.filter(
-    (produto) => produto.id == id
-  )[0];
-
-  //useState()
   const [produto, setProduto] = useState({
-    id: produtoRetornadoDoFiltro.id,
-    nome: produtoRetornadoDoFiltro.nome,
-    desc: produtoRetornadoDoFiltro.desc,
-    preco: produtoRetornadoDoFiltro.preco,
-    img: produtoRetornadoDoFiltro.img,
-    
+    nome: "",
+    desc: "",
+    preco: "",
+    img: "",
   });
 
-  const handleChange = (event) =>{
+  const [modalOpen, setModalOpen] = useState(false); // Estado para controlar a abertura do modal
 
-    //Destructuring
-    const {name, value} = event.target;
+  useEffect(() => {
+    // Faça uma solicitação GET à API para obter os detalhes do produto pelo ID
+    fetch(`http://localhost:5000/produtos/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setProduto(data); // Define os detalhes do produto no estado
+      })
+      .catch((error) => console.log(error));
+  }, [id]);
 
-    setProduto({...produto,[name]:value});
-  
-  }
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setProduto({ ...produto, [name]: value });
+  };
 
-  const handleSubmit = (event) =>{
-     event.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-     let indice;
-
-     ListaProdutos.forEach((item,index)=>{
-        if(item.id == id){
-          indice = index;
-        }
-     });
-     ListaProdutos.splice(indice,1,produto);
-     navigate("/produtos");
-  }
-
+    // Faça uma solicitação PUT à API para atualizar o produto
+    fetch(`http://localhost:5000/produtos/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(produto),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); // A resposta da API após a atualização
+        navigate("/produtos"); // Redireciona para a página de produtos após a edição
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div>
-      <h1>EditarProdutos</h1>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <fieldset>
-            <legend>Produto Selecionado</legend>
-            <input type="hidden" name="id" value={produto.id} />
-            <div>
-              <label htmlFor="idProd">Nome do Produto</label>
-              <input type="text" name="nome" id="idProd" onChange={handleChange} value={produto.nome} />
-            </div>
-            <div>
-              <label htmlFor="idDesc">Descrição</label>
-              <input type="text" name="desc" id="idDesc" onChange={handleChange} value={produto.desc} />
-            </div>
-            <div>
-              <label htmlFor="idPreco">Preço</label>
-              <input
-                type="text"
-                name="preco"
-                id="idPreco"
-                onChange={handleChange}
-                value={produto.preco}
-              />
-            </div>
-            <div>
-              <button>EDITAR</button>
-            </div>
-          </fieldset>
-        </form>
-      </div>
-
+      <form onSubmit={handleSubmit}>
+        {/* Renderize o formulário de edição aqui */}
         <div>
-          <p>Nome : {produto.nome}</p>
-          <p>Desc : {produto.desc}</p>
-          <p>Preço : {produto.preco}</p>
+          <label htmlFor="nome">Nome do Produto</label>
+          <input
+            type="text"
+            name="nome"
+            id="nome"
+            value={produto.nome}
+            onChange={handleChange}
+          />
         </div>
+        <div>
+          <label htmlFor="desc">Descrição</label>
+          <input
+            type="text"
+            name="desc"
+            id="desc"
+            value={produto.desc}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="preco">Preço</label>
+          <input
+            type="text"
+            name="preco"
+            id="preco"
+            value={produto.preco}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="img">Imagem</label>
+          <input
+            type="url"
+            name="img"
+            id="img"
+            value={produto.img}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <button onClick={() => setModalOpen(true)}>Editar</button>
+        </div>
+      </form>
+
+      {/* Adicione o modal de edição aqui */}
+      <ModalEditar
+        open={modalOpen}
+        produto={produto}
+        setOpen={setModalOpen}
+        onSubmit={handleSubmit}
+        onChange={handleChange}
+      />
     </div>
   );
 }
