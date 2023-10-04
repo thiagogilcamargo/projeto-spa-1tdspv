@@ -1,35 +1,44 @@
+// Variáveis para cores e estilos
+$cor-de-fundo-cabecalho: #666;
+$cor-de-fundo-hover: #f90;
+$cor-de-fundo-active: #f50;
+$cor-de-texto-cabecalho: #fff;
+$cor-de-texto-hover: #000;
+$fonte-cabecalho: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+$tamanho-fonte-cabecalho: 1.5rem;
+$peso-fonte-cabecalho: bold;
 
-.cabecalho{
-    background-color: #666;
-    width: 10%;
-    margin: 0;
-    font-size: 1.5rem;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-weight:bold;
-
-    ul{
-       list-style: none; 
-       padding: 0;
-       
-       li a{
+.cabecalho {
+  background-color: $cor-de-fundo-cabecalho;
+  width: 10%;
+  margin: 0;
+  font-size: $tamanho-fonte-cabecalho;
+  font-family: $fonte-cabecalho;
+  font-weight: $peso-fonte-cabecalho;
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    
+    li {
+      a {
         text-align: center;
         text-decoration: none;
-         display: block;
-         color: #fff;
-         padding: 8px 16px;
-         transition: background-color 300ms ease-out, color 300ms ease-out;
-
-           &:hover{
-            background-color: #f90;
-            color: #000;
-           }
-
-       }
+        display: block;
+        color: $cor-de-texto-cabecalho;
+        padding: 8px 16px;
+        transition: background-color 0.3s ease-out, color 0.3s ease-out;
+        
+        &:hover {
+          background-color: $cor-de-fundo-hover;
+          color: $cor-de-texto-hover;
+        }
+      }
     }
-
-    .active{
-        background-color: #f50;
-        color: #fff;
-    }
-
+  }
+  
+  &.active {
+    background-color: $cor-de-fundo-active;
+    color: $cor-de-texto-cabecalho;
+  }
 }
